@@ -1,8 +1,9 @@
 import './css/styles.css';
-import fetchCountry from './js/fetchCountries.js'
+import {fetchCountry} from './js/fetchCountries.js'
 import debounce from 'lodash.debounce';
-
-console.log(fetchCountry);
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import countryLayoutIpi from './templates/country_info.hbs'
+// console.log(fetchCountry);
 
 const DEBOUNCE_DELAY = 300;
 
@@ -11,13 +12,64 @@ const input = document.querySelector('#search-box') ;
 const countryList = document.querySelector('.country-list');
 const countryInfo = document.querySelector('.country-info');
 
-input.addEventListener('input', debounce((e) => {
-    e.preventDefault();
-    fetchCountry(input.value)
-    .then(resolte => console.log(resolte))
-    .catch(error => console.log(error));
-    // console.log(searchCountryList);
-}),DEBOUNCE_DELAY);
+input.addEventListener('input', debounce(onSearchNameCountry, DEBOUNCE_DELAY));
+
+function onSearchNameCountry(elements){
+    elements.preventDefault();
+    const trimInput = elements.target.value.trim();
+    reviewTextInput(trimInput);
+    fetchCountry(trimInput).then(checkCountrylength);
+}
+// console.log(onSearchNameCountry);
+
+
+function checkCountrylength (country){
+    cleanerCountryText();
+    if  (country.length >= 2 && country.length < 10) {
+        showCountry();
+        return;
+    } else if (country.length > 10){
+       manyMatchesFound();
+       return;
+    } else {
+        fillingInfo();
+    };
+}
+
+
+function showCountry (resolte){
+    const markup = resolte.map(({name, flags}) => {`<li>
+    <img scr="${flags.svg}"  alt="flag" width="60" height="60" />
+    <h1>${name.official}</h1>
+    </li>`;
+    })
+    .join("");
+    countryList.innerHTML = markup; 
+}
+
+function manyMatchesFound(){
+    Notify.info(`Too many matches found. Please enter a more specific name`);
+}
+function fillingInfo(countryName){
+    countryInfo.innerHTML = countryLayoutIpi(countryName);
+}
+
+function cleanerCountryText(){
+    countryList.innerHTML = "";
+    countryInfo.innerHTML = "";
+}
+
+function reviewTextInput(elem){
+    if(!elem){
+       return cleanerCountryText();
+    };
+}
+
+// function checkCountrylength (country){
+//     cleanerCountryText();
+//     return (showCountry(country) ? country.length >= 2 && country.length < 10 : manyMatchesFound());
+// }
+
 
 // function searchCountryList(element){
 //     countryList.innerHTML = `<li>

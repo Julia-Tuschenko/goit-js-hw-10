@@ -1,43 +1,102 @@
 import './css/styles.css';
+import fetchCountry from './js/fetchCountries.js'
+import debounce from 'lodash.debounce';
+
+console.log(fetchCountry);
 
 const DEBOUNCE_DELAY = 300;
-// const country = fetch(`https://restcountries.com/v3.1/name/${name}`);
+
 
 const input = document.querySelector('#search-box') ;
 const countryList = document.querySelector('.country-list');
 const countryInfo = document.querySelector('.country-info');
 
-
-input.addEventListener('input', e => {
+input.addEventListener('input', debounce(e => {
     e.preventDefault();
-    // console.log(input.value);
-    const name = input.value;
-
-    fetchCountry(name)
-    .then(searchCountryList)
+    fetchCountry(input.value)
+    .then(resolte => console.log(resolte))
     .catch(error => console.log(error));
-    console.log(searchCountryList);
-});
+    // console.log(searchCountryList);
+}),DEBOUNCE_DELAY);
 
-function searchCountryList(element){
-    countryList.innerHTML = `<li>
-    <img scr="${element.flags.svg}"  alt="flag" width="60" height="60" />
-    <h1>${element.name.official}</h1>
-    </li>
-    `;
-}
+// function searchCountryList(element){
+//     countryList.innerHTML = `<li>
+//     <img scr="${element.flags}"  alt="flag" width="60" height="60" />
+//     <h1>${element.name}</h1>
+//     </li>
+//     `;
+// }
+
+
+// Тебе нужны только следующие свойства:
+
+// name.official - полное имя страны
+// capital - столица
+// population - население
+// flags.svg - ссылка на изображение флага
+// languages - массив языков
 
 
 
-function fetchCountry(name){
-    return fetch(`https://restcountries.com/v3.1/name/${name}`)
-    .then(response => {
-     if (!response.ok) {
-       throw new Error(response.status);
-     }
-     return response.json();
-   })
- }
+
+
+
+
+
+// https://restcountries.com/v2/${name}?fields=name,capital,population,flags,languages 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const country = fetch(`https://restcountries.com/v3.1/name/${name}`);
+
+// const input = document.querySelector('#search-box') ;
+// const countryList = document.querySelector('.country-list');
+// const countryInfo = document.querySelector('.country-info');
+
+
+// input.addEventListener('input', e => {
+//     e.preventDefault();
+//     // console.log(input.value);
+//     const name = input.value;
+
+//     fetchCountry(name)
+//     .then(searchCountryList)
+//     .catch(error => console.log(error));
+//     console.log(searchCountryList);
+// });
+
+// function searchCountryList(element){
+//     countryList.innerHTML = `<li>
+//     <img scr="${element.flags.svg}"  alt="flag" width="60" height="60" />
+//     <h1>${element.name.official}</h1>
+//     </li>
+//     `;
+// }
+
+
+
 
 // function completeInfoCountry({name, capital, population, flags, languages}){
 //     const info = ` <div>

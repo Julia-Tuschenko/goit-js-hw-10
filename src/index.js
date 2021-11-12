@@ -11,7 +11,7 @@ const input = document.querySelector('#search-box') ;
 const countryList = document.querySelector('.country-list');
 const countryInfo = document.querySelector('.country-info');
 
-input.addEventListener('input', debounce(e => {
+input.addEventListener('input', debounce((e) => {
     e.preventDefault();
     fetchCountry(input.value)
     .then(resolte => console.log(resolte))

@@ -1,19 +1,22 @@
 {{#each this}}
-  <div class='country-wrapper'>
-    <img class='country-flag' src={{flags.svg}} alt='flag' width='150' height='70' />
+  <div class='country'>
+    <img class='country-flag' src={{flags.svg}} alt='flag'  />
     <h1 class='country-name'>{{name.official}}</h1>
   </div>
   <ul class='country-container'>
-    <li class='country-description'>Capital:{{capital}}</li>
-    <li class='country-description'>Population:{{population}}</li>
-    <li class='country-description'>Languages:
+    <li class='country-description'>Capital: <span class="country-info">{{capital}}</span></li>
+    <li class='country-description'>Population:<span class="country-info">{{population}}</span> </li>
+    <li class='country-description'>Languages:<span class="country-info">
       {{#each languages}}
         {{#if @last}}
           <span class='country-language'>{{this}}</span>
         {{else}}
           <span class='country-language'>{{this}},</span>
         {{/if}}
-      {{/each}}
+      {{/each}}</span> 
     </li>
   </ul>
 {{/each}}
+
+
+

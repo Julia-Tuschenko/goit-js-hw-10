@@ -25,25 +25,31 @@ function onSearchNameCountry(elements){
 
 function checkCountrylength (country){
     cleanerCountryText();
-    if  (country.length >= 2 && country.length < 10) {
-        showCountry();
+
+    if (country.length > 10){
+        manyMatchesFound();
         return;
-    } else if (country.length > 10){
-       manyMatchesFound();
-       return;
-    } else {
-        fillingInfo();
-    };
+     }  if  (country.length >= 2 && country.length < 10) {
+        showCountry(country);
+        return;
+    } 
+    fillingInfo(country);  
 }
 
 
 function showCountry (resolte){
-    const markup = resolte.map(({name, flags}) => {`<li>
-    <img scr="${flags.svg}"  alt="flag" width="60" height="60" />
-    <h1>${name.official}</h1>
+    // name.official - полное имя страны
+    // capital - столица
+    // population - население
+    // flags.svg - ссылка на изображение флага
+    // languages - массив языков
+    const markup = resolte.map(
+    ({name, flags}) => {`<li class='country-list'>
+    <img scr="${flags.svg}"  alt="flag" class='country-flag'/>
+    <h1 class='country-many-name'>${name.official}</h1>
     </li>`;
     })
-    .join("");
+    .join('');
     countryList.innerHTML = markup; 
 }
 
@@ -61,7 +67,8 @@ function cleanerCountryText(){
 
 function reviewTextInput(elem){
     if(!elem){
-       return cleanerCountryText();
+       cleanerCountryText();
+       return 
     };
 }
 
@@ -80,13 +87,7 @@ function reviewTextInput(elem){
 // }
 
 
-// Тебе нужны только следующие свойства:
 
-// name.official - полное имя страны
-// capital - столица
-// population - население
-// flags.svg - ссылка на изображение флага
-// languages - массив языков
 
 
 

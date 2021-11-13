@@ -1,14 +1,15 @@
 import './css/styles.css';
-import {fetchCountry} from './js/fetchCountries.js'
+import {fetchCountry} from './js/fetchCountries.js';
 import debounce from 'lodash.debounce';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import countryLayoutIpi from './templates/country_info.hbs'
+import countryLayoutIpi from './templates/country_info.hbs';
+import countryListpi from './templates/country_list.hbs';
 // console.log(fetchCountry);
 
 const DEBOUNCE_DELAY = 300;
 
 
-const input = document.querySelector('#search-box') ;
+const input = document.querySelector('#search-box');
 const countryList = document.querySelector('.country-list');
 const countryInfo = document.querySelector('.country-info');
 
@@ -36,21 +37,8 @@ function checkCountrylength (country){
     fillingInfo(country);  
 }
 
-
 function showCountry (resolte){
-    // name.official - полное имя страны
-    // capital - столица
-    // population - население
-    // flags.svg - ссылка на изображение флага
-    // languages - массив языков
-    const markup = resolte.map(
-    ({name, flags}) => {`<li class='country-list'>
-    <img scr="${flags.svg}"  alt="flag" class='country-flag'/>
-    <h1 class='country-many-name'>${name.official}</h1>
-    </li>`;
-    })
-    .join('');
-    countryList.innerHTML = markup; 
+    countryList.innerHTML = countryListpi(resolte);
 }
 
 function manyMatchesFound(){
@@ -68,9 +56,27 @@ function cleanerCountryText(){
 function reviewTextInput(elem){
     if(!elem){
        cleanerCountryText();
-       return 
+       return;
     };
 }
+
+
+// function showCountry (resolte){
+//     // name.official - полное имя страны
+//     // capital - столица
+//     // population - население
+//     // flags.svg - ссылка на изображение флага
+//     // languages - массив языков
+//     const markup = resolte.map(
+//     ({name, flags}) => {
+//         return `<li class='country-list'>
+//         <img scr=${flags.svg}  alt="flag" class='country-flag'/>
+//         <h1 class='country-many-name'>${name.official}</h1>
+//         </li>`;
+//         })
+//     .join('');
+//     countryList.innerHTML = ('beforeend', markup);
+// }
 
 // function checkCountrylength (country){
 //     cleanerCountryText();
